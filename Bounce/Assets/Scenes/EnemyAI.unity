@@ -1782,27 +1782,6 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
---- !u!1 &213637664 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7872128970353888660, guid: 1bad3dd852870b6459a1be974977cc5e, type: 3}
-  m_PrefabInstance: {fileID: 7872128970298922932}
-  m_PrefabAsset: {fileID: 0}
---- !u!58 &213637665
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 213637664}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 1.62
 --- !u!1 &370548040
 GameObject:
   m_ObjectHideFlags: 0
@@ -1971,10 +1950,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shootPrefab: {fileID: 0}
   crosshair: {fileID: 1509858365}
+  playerCollider: {fileID: 0}
   canJump: 0
   normalSpeed: 0
   increasedSpeed: 0
   crosshairPos: {x: 0, y: 0, z: 0}
+  jumpFloor:
+    serializedVersion: 2
+    m_Bits: 0
+  speedFloor:
+    serializedVersion: 2
+    m_Bits: 0
+  floatFloor:
+    serializedVersion: 2
+    m_Bits: 0
+  groundLevel: {x: 0, y: 0}
+  speedUp: 0
+  floatUp: 0
+  jumpUp: 0
+  playerGravity: 0
+  gravitiyIncrease: 0
+  jumpStartDistance: 1
+  jumpMaxHeight: 10
+  airTime: 10
+  jumpForce: 10
 --- !u!1 &404919383
 GameObject:
   m_ObjectHideFlags: 0
@@ -2682,10 +2681,6 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 213637665, guid: 1bad3dd852870b6459a1be974977cc5e, type: 3}
-      propertyPath: attackRange
-      value: 
-      objectReference: {fileID: 213637665}
-    - target: {fileID: 213637665, guid: 1bad3dd852870b6459a1be974977cc5e, type: 3}
       propertyPath: colliders.Array.data[0]
       value: 
       objectReference: {fileID: 106002979}
@@ -2719,7 +2714,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7872128970353888663, guid: 1bad3dd852870b6459a1be974977cc5e, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: 0.000006818967
       objectReference: {fileID: 0}
     - target: {fileID: 7872128970353888663, guid: 1bad3dd852870b6459a1be974977cc5e, type: 3}
       propertyPath: m_LocalRotation.z

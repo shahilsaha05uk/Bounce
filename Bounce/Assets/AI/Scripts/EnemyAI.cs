@@ -18,6 +18,7 @@ public class EnemyAI : MonoBehaviour
     public float walkSpeed;
     public float overlapRadius;
     public float angle;
+    public float rayCastDistance;
     public float dot;
 
     public LayerMask mask;
@@ -46,15 +47,13 @@ public class EnemyAI : MonoBehaviour
 
                     direction = GetDirectionVector2D(angle);
                     origin = transform.position;
-                    hitInfo = Physics2D.RaycastAll(origin, direction, 40, mask);
+                    hitInfo = Physics2D.RaycastAll(origin, direction, rayCastDistance, mask);
 
                     if(hitInfo.Length <=0 || hitInfo.Length >1)
                     {
                         flip = true;
                     }
-                    //flip = !Physics2D.OverlapCircle(groundCheckObject.transform.position, overlapRadius, groundLayer);
-
-                   // Patrol();
+                    Walk();
                     break;
                 case EnemyState.ATTACK:
 
@@ -83,10 +82,10 @@ public class EnemyAI : MonoBehaviour
             yield return null;
         }
     }
-    public void Patrol()
+    public void Walk()
     {
         m_Anim.SetBool("Walk", true);
-        rb.velocity = new Vector2(walkSpeed * Time.deltaTime, rb.velocity.y);
+        rb.velocity = (Vector2)transform.TransformDirection(Vector2.right);
     }
     private IEnumerator Idle()
     {
@@ -109,6 +108,8 @@ public class EnemyAI : MonoBehaviour
             m_Anim.SetBool("Attack", false);
         }
     }
+
+
     private IEnumerator FollowPlayer()
     {
         while (insideRange)
@@ -120,7 +121,6 @@ public class EnemyAI : MonoBehaviour
             yield return null;
         }
     }
-
     public Vector2 GetDirectionVector2D(float angle)
     {
         return new Vector2(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad)).normalized;
@@ -132,7 +132,6 @@ public class EnemyAI : MonoBehaviour
         m_Anim = GetComponent<Animator>();
 
         patrol = true;
-
         enemyState = EnemyState.IDLE;
 
         StartCoroutine(EnemyPatrol());
@@ -184,7 +183,7 @@ public class EnemyAI : MonoBehaviour
             dot = Vector3.Dot((target.position - transform.position).normalized, transform.right);
             if (dot < 0)
             {
-                Flip();
+                flip = true;
             }
         }
 
@@ -193,6 +192,6 @@ public class EnemyAI : MonoBehaviour
     {
         Gizmos.color = Color.red;
 
-        Debug.DrawRay(origin, direction * 10, Color.green);
+        Debug.DrawRay(origin, direction * rayCastDistance, Color.green);
     }
 }
