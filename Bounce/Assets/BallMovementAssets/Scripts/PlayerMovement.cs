@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
@@ -23,6 +24,10 @@ public class PlayerMovement : MonoBehaviour
     public Vector2 groundLevel;
     public static float jumpForceMultiplier;
     private RaycastHit2D hitInfo;
+
+    [Space(1)][Header("Camera")]
+    public CinemachineVirtualCamera playerCineCam;
+    public bool viewPortCheck;
 
     [Space(1)][Header("Bool Checks")]
     public bool speedUp;
@@ -72,6 +77,13 @@ public class PlayerMovement : MonoBehaviour
 
             floatUp = true;
         }
+
+        if (collision.CompareTag("CameraFlip"))
+        {
+            playerCineCam.enabled = false;
+            //disable the camera follow
+            //viewPortCheck = true;
+        }
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
@@ -81,6 +93,15 @@ public class PlayerMovement : MonoBehaviour
             gravitiyIncrease = rb.gravityScale;
             floatUp = false;
         }
+
+        if (!collision.CompareTag("CameraFlip"))
+        {
+            playerCineCam.enabled = true;
+
+            //disable the camera follow
+            //viewPortCheck = false;
+        }
+
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -104,6 +125,12 @@ public class PlayerMovement : MonoBehaviour
         {
             jumpUp = false;
         }
+
+    }
+    private void OnBecameInvisible()
+    {
+        Debug.Log("Invisible");
+        playerCineCam.enabled = true;
 
     }
 
