@@ -7,6 +7,10 @@ TagManager:
   - Floor
   - SpeedFloor
   - DontDestroyObjects
+  - CameraFlip
+  - ringTrigger
+  - Obstacles
+  - EndPoint
   layers:
   - Default
   - TransparentFX
