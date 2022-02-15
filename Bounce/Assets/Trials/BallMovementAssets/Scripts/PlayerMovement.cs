@@ -17,6 +17,8 @@ public class PlayerMovement : MonoBehaviour
     public int normalSpeed;
     public int increasedSpeed;
     public Vector3 crosshairPos;
+    public Vector3 smallScele;
+    public Vector3 bigScele;
 
     public LayerMask jumpFloor;
     public LayerMask speedFloor;
@@ -80,7 +82,7 @@ public class PlayerMovement : MonoBehaviour
             floatUp = true;
         }
 
-        if (collision.CompareTag("CameraFlip") && floatUp)
+        if ((collision.CompareTag("CameraFlip") && floatUp) || (collision.CompareTag("CameraFlip")))
         {
             playerCineCam.enabled = false;
 
@@ -99,6 +101,11 @@ public class PlayerMovement : MonoBehaviour
                 item.color = Color.gray;
             }
         }
+        if (collision.CompareTag("EndPoint"))
+        {
+            Debug.Log("Next Level");
+            SceneManage.Instance.SceneChangeTrigger("Level 2");
+        }
 
     }
     private void OnTriggerExit2D(Collider2D collision)
@@ -110,7 +117,7 @@ public class PlayerMovement : MonoBehaviour
             floatUp = false;
         }
 
-        if (!collision.CompareTag("CameraFlip") && !floatUp)
+        if ((!collision.CompareTag("CameraFlip") && !floatUp) || (!collision.CompareTag("CameraFlip")))
         {
             playerCineCam.enabled = true;
             viewPortCheck = false;
@@ -134,23 +141,19 @@ public class PlayerMovement : MonoBehaviour
             Debug.Log("Game Over");
             StartCoroutine(Explosion());
         }
-        if (collision.collider.CompareTag("EndPoint"))
+
+        if(collision.collider.CompareTag("SmallScaler"))
         {
-            Debug.Log("Next Level");
+            Debug.Log("Small Ball");
+            transform.localScale = smallScele;
+            jumpStartDistance = transform.localScale.y;
         }
-    }
-
-    private IEnumerator Explosion()
-    {
-        Animator blast = Instantiate(BlastAnim, transform.position, Quaternion.identity);
-
-        while (blast.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f)
+        if(collision.collider.CompareTag("BigScaler"))
         {
-            yield return null;
+            Debug.Log("Big Ball");
+            transform.localScale = bigScele;
+            jumpStartDistance = transform.localScale.y;
         }
-
-        Destroy(blast.gameObject);
-        Destroy(this.gameObject,5f);
     }
     private void OnCollisionExit2D(Collision2D collision)
     {
@@ -164,7 +167,6 @@ public class PlayerMovement : MonoBehaviour
         }
 
     }
-
     private void OnBecameInvisible()
     {
         if (viewPortCheck)
@@ -189,13 +191,12 @@ public class PlayerMovement : MonoBehaviour
 
             hitInfo = Physics2D.Raycast(transform.position, -Vector2.up, Mathf.Infinity);
 
-            if(hitInfo.collider.CompareTag("Floor"))
+            if (hitInfo.collider.CompareTag("Floor"))
             {
                 groundLevel = hitInfo.point;
             }
 
             canJump = (airTime = Mathf.Abs(transform.position.y - groundLevel.y)) < jumpStartDistance;
-
             yield return null;
         }
     }
@@ -250,14 +251,17 @@ public class PlayerMovement : MonoBehaviour
     }
     public void Shoot(InputAction.CallbackContext obj)
     {
-        Vector2 direction = crosshair.transform.position - transform.position;
+        if (!UIScript.pauseCanvasOpened)
+        {
+            Vector2 direction = crosshair.transform.position - transform.position;
 
-        GameObject tempShoot = Instantiate(shootPrefab);
-        tempShoot.GetComponent<Rigidbody2D>().velocity = direction * 5f;
-        tempShoot.transform.position = transform.position;
-        tempShoot.transform.Rotate(0, 0, Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg);
+            GameObject tempShoot = Instantiate(shootPrefab);
+            tempShoot.GetComponent<Rigidbody2D>().velocity = direction * 5f;
+            tempShoot.transform.position = transform.position;
+            tempShoot.transform.Rotate(0, 0, Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg);
 
-        Destroy(tempShoot, 3f);
+            Destroy(tempShoot, 3f);
+        }
     }
 
     public int GetLayerID(LayerMask layer)
@@ -275,6 +279,18 @@ public class PlayerMovement : MonoBehaviour
             }
             yield return null;
         }
+    }
+    private IEnumerator Explosion()
+    {
+        Animator blast = Instantiate(BlastAnim, transform.position, Quaternion.identity);
+
+        while (blast.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f)
+        {
+            yield return null;
+        }
+
+        Destroy(blast.gameObject);
+        Destroy(this.gameObject,5f);
     }
 
 }

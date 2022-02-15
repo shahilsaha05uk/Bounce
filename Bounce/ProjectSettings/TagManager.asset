@@ -11,6 +11,8 @@ TagManager:
   - ringTrigger
   - Obstacles
   - EndPoint
+  - SmallScaler
+  - BigScaler
   layers:
   - Default
   - TransparentFX
