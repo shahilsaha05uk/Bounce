@@ -7,6 +7,15 @@ TagManager:
   - Floor
   - SpeedFloor
   - DontDestroyObjects
+  - CameraFlip
+  - ringTrigger
+  - Obstacles
+  - EndPoint
+  - SmallScaler
+  - BigScaler
+  - Collectible
+  - SpeedObject
+  - Rings
   layers:
   - Default
   - TransparentFX
@@ -20,9 +29,9 @@ TagManager:
   - SpeedFloor
   - FloatFloor
   - JumpFloor
+  - Enemy
   - 
-  - 
-  - 
+  - Player
   - 
   - 
   - 
