@@ -11,7 +11,6 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
     public GameObject shootPrefab;
     public GameObject crosshair;
-    public CircleCollider2D playerCollider;
 
     public bool canJump;
     public int normalSpeed;
@@ -28,6 +27,7 @@ public class PlayerMovement : MonoBehaviour
     private RaycastHit2D hitInfo;
 
     public Animator BlastAnim;
+    private GameManager manager;
 
     [Space(1)][Header("Camera")]
     public CinemachineVirtualCamera playerCineCam;
@@ -42,7 +42,16 @@ public class PlayerMovement : MonoBehaviour
     public float playerGravity;
     public float gravitiyIncrease;
 
-    [Space(1)][Header("Jump Variables")]
+    [Space(1)][Header("Ball")]
+    public Sprite smallBall;
+    public Sprite bigBall;
+    public CircleCollider2D playerCollider;
+    public float smallBallRadius;
+    public float bigBallRadius;
+    public float speedUpDuration;
+    Vector2 inputMove;
+
+    [Space(1)] [Header("Jump Variables")]
     public float jumpStartDistance;
     public float jumpMaxHeight;
     public float airTime;
@@ -59,6 +68,7 @@ public class PlayerMovement : MonoBehaviour
 
         rb = GetComponent<Rigidbody2D>();
         playerCollider = GetComponent<CircleCollider2D>();
+        manager = GameObject.Find("GameManager").GetComponent<GameManager>();
 
         jumpForceMultiplier = 5f;
         canJump = true;
@@ -74,7 +84,7 @@ public class PlayerMovement : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.layer == GetLayerID(floatFloor))
+        if (collision.gameObject.layer == manager.GetLayerID(floatFloor))
         {
             rb.gravityScale = -1;
             gravitiyIncrease = rb.gravityScale;
@@ -100,6 +110,7 @@ public class PlayerMovement : MonoBehaviour
                 Debug.Log("Object name: " + item.gameObject.name);
                 item.color = Color.gray;
             }
+            manager.ringsCleared++;
         }
         if (collision.CompareTag("EndPoint"))
         {
@@ -107,10 +118,15 @@ public class PlayerMovement : MonoBehaviour
             SceneManage.Instance.SceneChangeTrigger("Level 2");
         }
 
+        if (collision.CompareTag("Collectible"))
+        {
+            StartCoroutine(manager.Collectible(collision));
+        }
+
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.layer == GetLayerID(floatFloor))
+        if (collision.gameObject.layer == manager.GetLayerID(floatFloor))
         {
             rb.gravityScale = 1;
             gravitiyIncrease = rb.gravityScale;
@@ -127,11 +143,11 @@ public class PlayerMovement : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
 
-        if (collision.gameObject.layer == GetLayerID(speedFloor))
+        if (collision.collider.CompareTag("SpeedObject"))
         {
             speedUp = true;
         }
-        if (collision.gameObject.layer == GetLayerID(jumpFloor))
+        if (collision.gameObject.layer == manager.GetLayerID(jumpFloor))
         {
             jumpUp = true;
         }
@@ -145,23 +161,29 @@ public class PlayerMovement : MonoBehaviour
         if(collision.collider.CompareTag("SmallScaler"))
         {
             Debug.Log("Small Ball");
-            transform.localScale = smallScele;
+            // transform.localScale = smallScele;
+            GetComponent<SpriteRenderer>().sprite = smallBall;
+            playerCollider.radius = smallBallRadius;
             jumpStartDistance = transform.localScale.y;
         }
         if(collision.collider.CompareTag("BigScaler"))
         {
             Debug.Log("Big Ball");
-            transform.localScale = bigScele;
+            
+            GetComponent<SpriteRenderer>().sprite = bigBall;
+            playerCollider.radius = bigBallRadius;
+            
+            //transform.localScale = bigScele;
             jumpStartDistance = transform.localScale.y;
         }
     }
     private void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.gameObject.layer != GetLayerID(speedFloor.value))
+        if (collision.gameObject.layer != manager.GetLayerID(speedFloor.value))
         {
             speedUp = false;
         }
-        if (collision.gameObject.layer != GetLayerID(jumpFloor.value))
+        if (collision.gameObject.layer != manager.GetLayerID(jumpFloor.value))
         {
             jumpUp = false;
         }
@@ -184,9 +206,10 @@ public class PlayerMovement : MonoBehaviour
 
     private IEnumerator PlayerControls()
     {
+        StartCoroutine(ReadInput());
+        StartCoroutine(Movements());
         while (true)
         {
-            Movements();
             Aim();
 
             hitInfo = Physics2D.Raycast(transform.position, -Vector2.up, Mathf.Infinity);
@@ -200,19 +223,43 @@ public class PlayerMovement : MonoBehaviour
             yield return null;
         }
     }
-    public void Movements()
-    {
-        Vector2 inputMove = playerInput.Player.Move.ReadValue<Vector2>();
 
-        if (speedUp)
+    public IEnumerator ReadInput()
+    {
+        while (true)
         {
-            rb.AddForce(Vector2.right * 20f * inputMove, ForceMode2D.Force);
-        }
-        else
-        {
-            rb.AddForce(Vector2.right * 10f * inputMove, ForceMode2D.Force);
+            inputMove = playerInput.Player.Move.ReadValue<Vector2>();
+            yield return null;
         }
     }
+    public IEnumerator Movements()
+    {
+        while (true)
+        {
+
+            if (speedUp)
+            {
+                float time = 0f;
+                while ((time += Time.deltaTime) < speedUpDuration)
+                {
+                    inputMove = playerInput.Player.Move.ReadValue<Vector2>();
+
+                    rb.AddForce(Vector2.right * 20f * inputMove, ForceMode2D.Force);
+                    
+                    Debug.Log("Time: " + time);
+                    yield return null;
+                }
+                Debug.Log("Time Up");
+                speedUp = false;
+            }
+            else
+            {
+                rb.AddForce(Vector2.right * 10f * inputMove, ForceMode2D.Force);
+            }
+            yield return null;
+        }
+    }
+
     public void Jump(InputAction.CallbackContext obj)
     {
         if (canJump && !floatUp)
@@ -264,10 +311,6 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    public int GetLayerID(LayerMask layer)
-    {
-        return (int)Mathf.Log(layer.value, 2);
-    }
     private IEnumerator FloatOnWater()
     {
         while (true)
@@ -290,7 +333,8 @@ public class PlayerMovement : MonoBehaviour
         }
 
         Destroy(blast.gameObject);
-        Destroy(this.gameObject,5f);
+       // Destroy(this.gameObject,5f);
     }
+
 
 }

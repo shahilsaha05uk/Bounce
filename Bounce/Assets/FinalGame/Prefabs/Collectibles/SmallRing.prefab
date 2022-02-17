@@ -304,7 +304,7 @@ GameObject:
   - component: {fileID: 7391978610865686403}
   m_Layer: 0
   m_Name: SmallRing
-  m_TagString: Untagged
+  m_TagString: Rings
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -318,7 +318,7 @@ Transform:
   m_GameObject: {fileID: 7391978610865686405}
   m_LocalRotation: {x: 0, y: -0.57571906, z: 0, w: 0.81764764}
   m_LocalPosition: {x: 29.139, y: -7.91, z: 6.2687}
-  m_LocalScale: {x: 1.0223057, y: 1.0478632, z: 1.0223057}
+  m_LocalScale: {x: 1.022306, y: 1.0478632, z: 1.022306}
   m_Children:
   - {fileID: 7391978609636947969}
   - {fileID: 7391978610376765526}
