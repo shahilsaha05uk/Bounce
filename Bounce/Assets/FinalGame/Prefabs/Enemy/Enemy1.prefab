@@ -17,9 +17,10 @@ GameObject:
   - component: {fileID: 213637665}
   - component: {fileID: 8006643503294358324}
   - component: {fileID: 4385768194501814906}
+  - component: {fileID: -2459322581884047300}
   m_Layer: 0
   m_Name: Enemy1
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -180,21 +181,20 @@ MonoBehaviour:
   walkSpeed: -300
   overlapRadius: 0.1
   angle: -60.43
-  rayCastDistance: 2
+  rayCastDownDistance: 2
+  rayCastUpDistance: 1
   dot: 0
   mask:
     serializedVersion: 2
     m_Bits: 448
   enemyState: 0
-  enemyType: 0
   direction: {x: 0.4934865, y: -0.8697535}
   origin: {x: 13.59, y: -1.45}
   target: {fileID: 0}
   colliders:
   - {fileID: 0}
   attackRange: {fileID: 4385768194501814906}
-  patrolAxis: 0
-  antPos: {x: 0, y: 0, z: 0}
+  health: 0
 --- !u!58 &8006643503294358324
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -227,3 +227,16 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 1.62
+--- !u!114 &-2459322581884047300
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7872128970353888660}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34a098e5db013df4b8cf866b0841655d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 1

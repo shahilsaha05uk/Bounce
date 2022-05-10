@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cinemachine;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -15,7 +16,7 @@ public class SceneManage : MonoBehaviour
     public List<string> sceneNames;
     public string dontDestroyTag;
     public float sceneLoadProgress;
-
+    public static bool sceneLoaded;
 
     private void OnEnable()
     {
@@ -32,6 +33,8 @@ public class SceneManage : MonoBehaviour
         manager = GameObject.Find("GameManager").GetComponent<GameManager>();
 
         SceneChangeTrigger("MainMenu");
+        
+        
         if(SceneManager.GetActiveScene().name == "EmptyScene")
         {
             SceneManager.UnloadSceneAsync("EmptyScene");
@@ -45,6 +48,8 @@ public class SceneManage : MonoBehaviour
     {
         StartCoroutine(AdditiveSceneLoader(sceneName, sceneStatus));
     }
+
+
     private IEnumerator AdditiveSceneLoader(string sceneName, SceneStatus sceneStatus)
     {
         if (SceneManager.GetSceneByName(sceneName).IsValid())
@@ -65,6 +70,11 @@ public class SceneManage : MonoBehaviour
     }
     private IEnumerator SceneLoader(string sceneName)
     {
+        if (!manager.initialSetup && manager.instantiatedPlayer!= null)
+        {
+            Destroy(manager.instantiatedPlayer.gameObject);
+            Destroy(manager.instantiatedPlayerCineCam.gameObject);
+        }
         if (!SceneManager.GetSceneByName(sceneName).isLoaded)
         {
             GetListOfOpenedScenes();
@@ -83,12 +93,11 @@ public class SceneManage : MonoBehaviour
             sceneToLoad.allowSceneActivation = true;
 
             Scene scene = SceneManager.GetSceneByName(sceneName);
-
+            manager.lastCheckPoint = null;
             while (!scene.isLoaded)
             {
                 yield return null;
             }
-
 
             // Shift all the items to the new scene and unload the previous scenes
 
@@ -97,10 +106,9 @@ public class SceneManage : MonoBehaviour
                 SceneManager.SetActiveScene(scene);
                 ShiftItems(SceneManager.GetActiveScene());
             }
-
+            
             yield return StartCoroutine(CloseOpenedScenes());
-            manager.sceneChangeTrigger.Invoke();
-
+            manager.sceneChangeTrigger?.Invoke();
         }
     }
     public Scene GetCurrentScene()

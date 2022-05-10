@@ -302,6 +302,7 @@ GameObject:
   - component: {fileID: 7391978610865686402}
   - component: {fileID: 7391978610865686414}
   - component: {fileID: 7391978610865686403}
+  - component: {fileID: 3938091429044591427}
   m_Layer: 0
   m_Name: BigRing
   m_TagString: Rings
@@ -378,3 +379,16 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.48603153, y: 0.13579124}
   m_EdgeRadius: 0.06
+--- !u!114 &3938091429044591427
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7391978610865686405}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93d2debf2389426499727fdca9124f6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ringCleared: 0

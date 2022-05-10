@@ -1,13 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEngine;
 public enum EnemyPatrolAxis { VERTICAL, HORIZONTAL };
 
 [ExecuteInEditMode]
 public class AntController : MonoBehaviour
 {
-    [Space(1)]
-    [Header("Ant Variables")]
+    [Space(1)] [Header("Ant Health")]
+    public int health;
+
+    [Space(1)] [Header("Ant Variables")]
     public Vector3 antPos;
     public float speed;
     public EnemyPatrolAxis patrolAxis;
@@ -16,6 +19,7 @@ public class AntController : MonoBehaviour
     public Vector3 direction;
     public Vector3 origin;
     public float distance;
+    RaycastHit2D hitInfo;
 
     public IEnumerator AntPatrol(EnemyPatrolAxis axis)
     {
@@ -25,6 +29,7 @@ public class AntController : MonoBehaviour
             case EnemyPatrolAxis.VERTICAL:
                 rb.constraints = RigidbodyConstraints2D.FreezePositionX;
                 rb.freezeRotation = true;
+                AntFlip();
 
                 while (true)
                 {
@@ -33,9 +38,6 @@ public class AntController : MonoBehaviour
                     rb.velocity = newPos;
                     yield return null;
                 }
-
-                break;
-
             case EnemyPatrolAxis.HORIZONTAL:
                 rb.constraints = RigidbodyConstraints2D.FreezePositionY;
                 rb.freezeRotation = true;
@@ -55,7 +57,6 @@ public class AntController : MonoBehaviour
         yield return null;
     }
 
-    RaycastHit2D hitInfo;
     public IEnumerator DirectionHandler()
     {
         while (true)
@@ -70,12 +71,6 @@ public class AntController : MonoBehaviour
                 Debug.Log("Direction change");
                 AntFlip();
             }
-            else
-            {
-                Debug.Log("hit Collider name: " + hitInfo.collider.name);
-            }
-
-
             yield return null;
 
         }
@@ -92,12 +87,35 @@ public class AntController : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-
+        health = 100;
         StartCoroutine(AntPatrol(patrolAxis));
     }
+
     private void OnCollisionEnter2D(Collision2D collision)
-    {
-        Debug.Log("Flip the ant");
+    {        
         AntFlip();
+        Debug.Log("Flip the ant");
     }
+
+    public void TakeDamage(int val)
+    {
+        if ((health - val) <= 0)
+        {
+            val = 0;
+            health = 0;
+        }
+        else
+        {
+            health -= val;
+        }
+        
+        Debug.Log("Health: " + health);
+        CheckDestroy();
+    }
+    public void CheckDestroy()
+    {
+        if (health == 0)
+            Destroy(this.gameObject);
+    }
+
 }

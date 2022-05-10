@@ -16,6 +16,13 @@ TagManager:
   - Collectible
   - SpeedObject
   - Rings
+  - PlayerSpawnPoint
+  - Enemy
+  - LevelInfoManager
+  - High_Jump
+  - Shield
+  - SoundSource
+  - LastCheckpoint
   layers:
   - Default
   - TransparentFX
