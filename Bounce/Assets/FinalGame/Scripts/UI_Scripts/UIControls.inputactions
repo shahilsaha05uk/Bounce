@@ -11,7 +11,8 @@
                     "id": "e64c3ffe-86bc-47d4-9feb-513d8a8da71b",
                     "expectedControlType": "Vector2",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": true
                 },
                 {
                     "name": "Submit",
@@ -19,7 +20,8 @@
                     "id": "d54512ea-b06b-49c3-a452-adf89a24bae8",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Cancel",
@@ -27,7 +29,8 @@
                     "id": "69052ccd-68d3-4867-8a62-95efc4730175",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Point",
@@ -35,7 +38,8 @@
                     "id": "b4d44601-b16b-49e3-ae85-3cb563947d60",
                     "expectedControlType": "Vector2",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Click",
@@ -43,7 +47,8 @@
                     "id": "f637eb60-6a6f-46ff-8847-852236a5910d",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "ScrollWheel",
@@ -51,7 +56,8 @@
                     "id": "7fc8cc9d-9342-4014-828f-59c870754659",
                     "expectedControlType": "Vector2",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "MiddleClick",
@@ -59,7 +65,8 @@
                     "id": "3c473602-1349-4bd8-bf2c-5d5c01ab5ec5",
                     "expectedControlType": "",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "RightClick",
@@ -67,7 +74,8 @@
                     "id": "232b4d4c-1213-4a55-9df1-98763147717a",
                     "expectedControlType": "",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "TrackedDevicePosition",
@@ -75,7 +83,8 @@
                     "id": "885f1c6d-18c6-42e0-9c9c-2ad93252e1bc",
                     "expectedControlType": "Vector3",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "TrackedDeviceOrientation",
@@ -83,7 +92,17 @@
                     "id": "3145f615-1f29-46f7-98c3-cc19a9563815",
                     "expectedControlType": "Quaternion",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SoundControl",
+                    "type": "Button",
+                    "id": "f209cda1-16f6-4ad0-a516-469aa86f5556",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -504,6 +523,17 @@
                     "action": "TrackedDeviceOrientation",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "68f72645-fe43-4d78-963e-365071ca4598",
+                    "path": "<Gamepad>/leftStickPress",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SoundControl",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -517,7 +547,17 @@
                     "id": "13f8cf98-8cbb-4f3f-ad08-83cfe3448a27",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "BuyMenu",
+                    "type": "Button",
+                    "id": "67c98c71-644a-49c4-8d34-94051d14427f",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -529,6 +569,39 @@
                     "processors": "",
                     "groups": "",
                     "action": "PauseMenu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0e99c041-aa89-4516-b9f0-d3d5d5b23cb2",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PauseMenu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "40713a33-c613-4bdd-a9aa-3e2e3971fc0e",
+                    "path": "<Keyboard>/b",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "BuyMenu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "42f20a1e-bbfd-4737-8904-f1a7b8cab66b",
+                    "path": "<Gamepad>/buttonNorth",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "",
+                    "action": "BuyMenu",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

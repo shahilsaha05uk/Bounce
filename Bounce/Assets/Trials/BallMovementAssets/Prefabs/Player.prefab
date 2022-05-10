@@ -84,7 +84,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!50 &1975787409794717584
@@ -138,11 +138,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shootPrefab: {fileID: 0}
   crosshair: {fileID: 0}
-  playerCollider: {fileID: 1975787409794717589}
   canJump: 0
   normalSpeed: 0
   increasedSpeed: 0
   crosshairPos: {x: 0, y: 0, z: 0}
+  smallScele: {x: 0, y: 0, z: 0}
+  bigScele: {x: 0, y: 0, z: 0}
   jumpFloor:
     serializedVersion: 2
     m_Bits: 2048
@@ -161,6 +162,13 @@ MonoBehaviour:
   jumpUp: 0
   playerGravity: 0.1
   gravitiyIncrease: 1
+  smallBall: {fileID: 0}
+  bigBall: {fileID: 0}
+  playerCollider: {fileID: 1975787409794717589}
+  smallBallRadius: 0
+  bigBallRadius: 0
+  speedUpDuration: 0
+  moveSpeed: 2
   jumpStartDistance: 1
   jumpMaxHeight: 0
   airTime: 0

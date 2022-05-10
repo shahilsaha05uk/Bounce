@@ -39,6 +39,7 @@ TextureImporter:
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -446,6 +447,22 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      portal_sheet@2x_2: 7143728532690125884
+      portal_sheet@2x_9: 2087638726492557065
+      portal_sheet@2x_10: -7185837182174287264
+      portal_sheet@2x_3: -6693658863779609616
+      portal_sheet@2x_11: -5006640024465688654
+      portal_sheet@2x_4: 5840642632593763050
+      portal_sheet@2x_13: -1404855117708808210
+      portal_sheet@2x_7: 1548433226607760252
+      portal_sheet@2x_14: 1643215143651442171
+      portal_sheet@2x_8: -320951510278190306
+      portal_sheet@2x_1: 9140605998856154774
+      portal_sheet@2x_12: 493593139940482562
+      portal_sheet@2x_15: -5061492459796379466
+      portal_sheet@2x_5: -6196549284505251196
+      portal_sheet@2x_6: 7440051068977750202
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

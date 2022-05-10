@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 
 public enum EnemyState { IDLE ,WALK, ATTACK};
-[ExecuteInEditMode]
 public class FoxController : MonoBehaviour
 {
     #region Variables
@@ -36,11 +35,17 @@ public class FoxController : MonoBehaviour
     public List<Collider2D> colliders;
     public CircleCollider2D attackRange;
     private GameManager manager;
+    
+    [Space(1)] [Header("Ant Health")]
+    public int health;
+
+    
     #endregion
 
 
     private IEnumerator FoxPatrol()
     {
+        health = 100;
         while (true)
         {
             switch (enemyState)
@@ -133,7 +138,7 @@ public class FoxController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         m_Anim = GetComponent<Animator>();
-        manager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        GameObject.Find("GameManager").TryGetComponent<GameManager>(out manager);
 
         patrol = true;
         enemyState = EnemyState.IDLE;
@@ -198,5 +203,26 @@ public class FoxController : MonoBehaviour
 
         Debug.DrawRay(origin, direction * rayCastDownDistance, Color.green);
         Debug.DrawRay(transform.position, transform.right * rayCastUpDistance, Color.red);
+    }
+    
+    public void TakeDamage(int val)
+    {
+        if ((health - val) <= 0)
+        {
+            val = 0;
+            health = 0;
+        }
+        else
+        {
+            health -= val;
+        }
+        
+        Debug.Log("Health: " + health);
+        CheckDestroy();
+    }
+    public void CheckDestroy()
+    {
+        if (health == 0)
+            Destroy(this.gameObject);
     }
 }
